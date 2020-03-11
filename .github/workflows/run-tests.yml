@@ -22,6 +22,12 @@ jobs:
         name: P${{ matrix.php }} - L${{ matrix.laravel }} - ${{ matrix.dependency-version }}
 
         steps:
+            - name: Update apt
+              run: sudo apt-get update --fix-missing
+
+            - name: Install pcov
+              run: sudo apt-get install php-pcov
+                  
             - name: Checkout code
               uses: actions/checkout@v1
 
