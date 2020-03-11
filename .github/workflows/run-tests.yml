@@ -5,8 +5,6 @@ on:
         branches:
           - master
     pull_request:
-    schedule:
-        - cron: '0 0 * * *'
 
 jobs:
     run-tests:
@@ -14,9 +12,9 @@ jobs:
         strategy:
             fail-fast: true
             matrix:
-                php: [7.4]
+                php: [7.4,7.3,7.2]
                 laravel: [7.*]
-                dependency-version: [prefer-stable]
+                dependency-version: [prefer-stable,prefer-lowest]
                 include:
                     - laravel: 7.*
                       testbench: 5.*
@@ -42,7 +40,6 @@ jobs:
 
             - name: Install dependencies
               run: |
-                  composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
                   composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
             - name: Execute tests
